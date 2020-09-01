@@ -1,1 +1,1 @@
-<footer>Copyright Ninja Smoothies</footer>
+<footer>Copyright {new Date().getFullYear()} - Ninja Smoothies</footer>
