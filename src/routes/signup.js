@@ -1,8 +1,5 @@
 import User from "../models/User.js";
-import firebaseAdmin from "../firebase.js";
-import md5 from "crypto-js/md5";
-
-const db = firebaseAdmin.database();
+import bcrypt from "bcrypt";
 
 export const post = async (req, res) => {
   const { email, password } = req.body;
@@ -12,17 +9,19 @@ export const post = async (req, res) => {
 
     if (error) throw error;
 
-    const ref = await db.ref(`users/${md5(email)}`);
-    const response = await ref.once("value", async (data) => {
-      if (!data.val()) {
-        await db.ref(`users/${md5(email)}`).set(value);
-        res.statusCode = 200;
-        res.end(JSON.stringify({ id: data.key, ...value }));
-      } else {
-        res.statusCode = 200;
-        res.end("Email already exists");
-      }
-    });
+    const emailHash = await bcrypt.hash(email, 10);
+    const passwordHash = await bcrypt.hash(password, 10);
+    // const ref = await db.ref(`users/${emailHash}`);
+    // const response = await ref.once("value", async (data) => {
+    //   if (!data.val()) {
+    //     await ref.push({ ...value, password: passwordHash });
+    //     res.statusCode = 200;
+    //     res.end(JSON.stringify({ id: data.key, ...value }));
+    //   } else {
+    //     res.statusCode = 200;
+    //     res.end("Email already exists");
+    //   }
+    // });
   } catch (error) {
     res.statusCode = 400;
     res.end(error.message);
