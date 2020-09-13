@@ -3,7 +3,7 @@
   "description": "TODO",
   "version": "0.0.1",
   "scripts": {
-    "dev": "sapper dev",
+    "dev": "env-cmd sapper dev",
     "build": "sapper build",
     "export": "sapper export",
     "start": "node __sapper__/build",
@@ -14,8 +14,11 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "compression": "^1.7.1",
+    "env-cmd": "^10.1.0",
     "express": "^4.17.1",
-    "joi": "^17.2.1",
+    "pg": "^8.3.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5",
     "sirv": "^1.0.0"
   },
   "devDependencies": {
