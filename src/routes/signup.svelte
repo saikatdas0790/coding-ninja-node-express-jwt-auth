@@ -4,9 +4,18 @@
 </script>
 
 <form
-  on:submit={(e) => {
+  on:submit={async (e) => {
     e.preventDefault();
-    console.log(email, password);
+
+    try {
+      const res = await fetch('/signup', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }}>
   <h2>Sign up</h2>
   <label for="email">Email</label>

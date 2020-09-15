@@ -1,5 +1,6 @@
 import sirv from "sirv";
 import express from "express";
+import cookieParser from "cookie-parser";
 import compression from "compression";
 import * as sapper from "@sapper/server";
 import sequelize from "./sequelize";
@@ -12,6 +13,7 @@ express()
     compression({ threshold: 0 }),
     sirv("static", { dev }),
     express.json(),
+    cookieParser(),
     sapper.middleware(),
   )
   .listen(PORT, (err) => {
