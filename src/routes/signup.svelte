@@ -30,6 +30,8 @@
     } catch (err) {
       console.error(err);
     }
+    email = '';
+    password = '';
   }}>
   <h2>Sign up</h2>
   <label for="email">Email</label>

@@ -1,12 +1,38 @@
 <script>
+  import { goto } from "@sapper/app";
+
   let email = "";
   let password = "";
+  let emailError = "";
+  let passwordError = "";
 </script>
 
 <form
-  on:submit={(e) => {
+  on:submit={async (e) => {
     e.preventDefault();
-    console.log(email, password);
+
+    try {
+      const res = await fetch('/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await res.json();
+      console.log(data);
+
+      if (data.errors) {
+        emailError = data.errors.email;
+        passwordError = data.errors.password;
+      }
+
+      if (data.user) {
+        goto('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    email = '';
+    password = '';
   }}>
   <h2>Log In</h2>
   <label for="email">Email</label>
