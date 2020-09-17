@@ -1,6 +1,10 @@
 <script>
+  import { goto } from "@sapper/app";
+
   let email = "";
   let password = "";
+  let emailError = "";
+  let passwordError = "";
 </script>
 
 <form
@@ -13,6 +17,16 @@
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
       });
+      const data = await res.json();
+
+      if (data.errors) {
+        emailError = data.errors.email;
+        passwordError = data.errors.password;
+      }
+
+      if (data.user) {
+        goto('/');
+      }
     } catch (err) {
       console.error(err);
     }
@@ -20,11 +34,11 @@
   <h2>Sign up</h2>
   <label for="email">Email</label>
   <input type="text" id="email" bind:value={email} required />
-  <div class="email error" />
+  <div class="email error">{emailError}</div>
 
   <label for="password">Password</label>
   <input type="password" id="password" bind:value={password} required />
-  <div class="password error" />
+  <div class="password error">{passwordError}</div>
 
   <button>Sign up</button>
 </form>
