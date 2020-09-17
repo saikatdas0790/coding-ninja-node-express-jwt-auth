@@ -37,11 +37,11 @@
   <h2>Log In</h2>
   <label for="email">Email</label>
   <input type="text" id="email" bind:value={email} required />
-  <div class="email error" />
+  <div class="email error">{emailError}</div>
 
   <label for="password">Password</label>
   <input type="password" id="password" bind:value={password} required />
-  <div class="password error" />
+  <div class="password error">{passwordError}</div>
 
   <button>Log In</button>
 </form>

@@ -1,5 +1,5 @@
-import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 const handleErrors = (err) => {
   let errors = { email: "", password: "" };
@@ -18,7 +18,7 @@ const createToken = (id) => {
   });
 };
 
-export const post = async (req, res) => {
+const post = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -31,3 +31,5 @@ export const post = async (req, res) => {
     res.status(400).json({ errors });
   }
 };
+
+export { post, handleErrors, createToken, maxAge };
