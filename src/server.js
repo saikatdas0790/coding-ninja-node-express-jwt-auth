@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import * as sapper from "@sapper/server";
 import sequelize from "./sequelize";
-import { requireAuth } from "./middleware/authMiddleware";
+import { checkUser, requireAuth } from "./middleware/authMiddleware";
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
@@ -17,11 +17,13 @@ app.use(
   cookieParser(),
 );
 app.use("/smoothies", requireAuth);
+app.get("*", checkUser);
 app
   .use(
     sapper.middleware({
       session: (req, res) => ({
         user: {
+          ...res.locals.user,
           id: res.locals.decodedToken ? res.locals.decodedToken.id : null,
         },
       }),
