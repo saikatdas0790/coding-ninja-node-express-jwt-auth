@@ -1,9 +1,7 @@
-<script>
-  import Smoothies from "../smoothies.svelte";
-</script>
-
 <nav>
-  <h1>
-    <a href="/">Ninja Smoothies</a>
-  </h1>
+  <h1><a href="/">Ninja Smoothies</a></h1>
+  <ul>
+    <li><a href="/login">Log in</a></li>
+    <li><a href="/signup" class="btn">Sign up</a></li>
+  </ul>
 </nav>

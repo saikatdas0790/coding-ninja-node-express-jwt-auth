@@ -7,7 +7,6 @@ export const post = async (req, res, next) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user.dataValues.id);
-    console.log(token);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user.id });
   } catch (error) {
