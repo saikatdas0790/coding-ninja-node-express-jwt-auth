@@ -11,7 +11,6 @@ import bcrypt from "bcrypt";
 class User extends Model {
   static async login(email, password) {
     const user = await this.findOne({ where: { email } });
-    console.log(user);
     if (user) {
       const auth = await bcrypt.compare(password, user.password);
       if (auth) return user;

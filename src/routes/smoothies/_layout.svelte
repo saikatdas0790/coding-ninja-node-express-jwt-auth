@@ -2,7 +2,7 @@
   import { stores, goto } from "@sapper/app";
   const { session } = stores();
 
-  console.log($session);
-
-  if (!$session.user.id) goto("/login");
+  if (!$session.user || !$session.user.id) goto("/login");
 </script>
+
+<slot />

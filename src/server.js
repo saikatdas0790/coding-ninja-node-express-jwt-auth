@@ -16,17 +16,19 @@ app.use(
   express.json(),
   cookieParser(),
 );
-app.use("/smoothies", requireAuth);
-app.get("*", checkUser);
+
 app
   .use(
     sapper.middleware({
-      session: (req, res) => ({
-        user: {
-          ...res.locals.user,
-          id: res.locals.decodedToken ? res.locals.decodedToken.id : null,
-        },
-      }),
+      session: async (req, res) => {
+        let user;
+        if (res.locals.user) user = res.locals.user;
+        else user = await checkUser(req, res);
+
+        return {
+          user,
+        };
+      },
     }),
   )
   .listen(PORT, (err) => {
@@ -34,5 +36,5 @@ app
   });
 
 // sequelize.sync({ force: true });
-sequelize.sync({ alter: true });
+// sequelize.sync({ alter: true });
 // sequelize.sync();

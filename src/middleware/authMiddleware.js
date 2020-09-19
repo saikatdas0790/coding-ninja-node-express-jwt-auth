@@ -19,27 +19,24 @@ const requireAuth = (req, res, next) => {
   next();
 };
 
-const checkUser = (req, res, next) => {
+const checkUser = async (req, res) => {
   const token = req.cookies.jwt;
 
+  let payload;
   if (token) {
-    jwt.verify(
-      token,
-      process.env.JWT_SIGNING_SECRET,
-      async (err, decodedToken) => {
-        if (err) {
-          console.error(err.message);
-          res.locals.user = null;
-        } else {
-          let user = await User.findOne({ where: { id: decodedToken.id } });
-          res.locals.user = user;
-        }
-      },
-    );
-  } else {
-    res.locals.user = null;
-  }
-  next();
+    payload = jwt.verify(token, process.env.JWT_SIGNING_SECRET);
+    console.log(payload);
+
+    try {
+      let user = await User.findOne({ where: { id: payload.id } });
+      res.locals.user = user.dataValues;
+      return user.dataValues;
+    } catch (error) {
+      console.error(error.message);
+    }
+  } else return;
+
+  return null;
 };
 
 export { requireAuth, checkUser };

@@ -25,7 +25,8 @@ const post = async (req, res) => {
     const user = await User.create({ email, password });
     const token = createToken(user.id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user.id });
+    res.locals.user = user.dataValues;
+    res.status(201).redirect("/");
   } catch (error) {
     const errors = handleErrors(error);
     res.status(400).json({ errors });

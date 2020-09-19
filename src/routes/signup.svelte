@@ -17,15 +17,12 @@
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
       });
+      if (res.redirected) return goto(res.url);
       const data = await res.json();
 
       if (data.errors) {
         emailError = data.errors.email;
         passwordError = data.errors.password;
-      }
-
-      if (data.user) {
-        goto('/');
       }
     } catch (err) {
       console.error(err);
