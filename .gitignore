@@ -6,3 +6,4 @@ yarn-error.log
 /__sapper__/
 coding-ninja-node-express-jwt-auth.json
 .env**
+deploy.sh
